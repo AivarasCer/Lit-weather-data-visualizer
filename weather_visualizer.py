@@ -43,4 +43,14 @@ while start_date <= end_date:
         print(f"No data for {date_to_str(start_date)}")
     start_date += timedelta(days=1)
 
-print(temp_data)
+dates = list(temp_data.keys())
+temperatures = list(temp_data.values())
+
+plt.figure(figsize=(10, 5), dpi=200)
+plt.plot(dates, temperatures, marker='o', linestyle='-', color='b')
+plt.title('Midday Temperature in Vilnius')
+plt.xlabel('Date')
+plt.ylabel('Temperature (°C)')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()

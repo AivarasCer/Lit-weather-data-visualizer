@@ -3,6 +3,7 @@
 import requests
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+import matplotlib.ticker as ticker
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
@@ -48,12 +49,24 @@ dates = [datetime.strptime(date, '%Y-%m-%d') for date in temp_data.keys()]
 temperatures = list(temp_data.values())
 
 plt.figure(figsize=(15, 7), dpi=200)
-plt.plot(dates, temperatures, marker='o', linestyle='-', color='b')
-plt.title('Average Temperature in Vilnius')
-plt.xlabel('Year')
-plt.ylabel('Temperature (°C)')
-plt.xticks(rotation=45)
+plt.plot(dates, temperatures, marker='o', linestyle='-', color='royalblue', markersize=5)
+
+plt.title('Average Midday Temperature in Vilnius', fontsize=16, fontweight='bold')
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('Temperature (°C)', fontsize=14)
+
+plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+
 plt.gca().xaxis.set_major_locator(mdates.YearLocator())
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+plt.gca().xaxis.set_minor_locator(mdates.MonthLocator())
+
+plt.gca().tick_params(axis='x', which='major', labelsize=12)
+plt.gca().tick_params(axis='x', which='minor', labelsize=8)
+plt.setp(plt.gca().get_xticklabels(), rotation=45, ha="right")
+
+plt.gca().yaxis.set_major_locator(ticker.MaxNLocator(integer=True, nbins=10))
+
 plt.tight_layout()
+plt.savefig('C:/Users/aivar/Desktop/temperature_plot.png', dpi=300)
 plt.show()

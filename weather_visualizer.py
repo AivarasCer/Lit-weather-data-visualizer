@@ -2,6 +2,7 @@
 
 import requests
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
@@ -43,14 +44,16 @@ while start_date <= end_date:
         print(f"No data for {date_to_str(start_date)}")
     start_date += timedelta(days=1)
 
-dates = list(temp_data.keys())
+dates = [datetime.strptime(date, '%Y-%m-%d') for date in temp_data.keys()]
 temperatures = list(temp_data.values())
 
-plt.figure(figsize=(10, 5), dpi=200)
+plt.figure(figsize=(15, 7), dpi=200)
 plt.plot(dates, temperatures, marker='o', linestyle='-', color='b')
-plt.title('Midday Temperature in Vilnius')
-plt.xlabel('Date')
+plt.title('Average Temperature in Vilnius')
+plt.xlabel('Year')
 plt.ylabel('Temperature (°C)')
 plt.xticks(rotation=45)
+plt.gca().xaxis.set_major_locator(mdates.YearLocator())
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 plt.tight_layout()
 plt.show()
